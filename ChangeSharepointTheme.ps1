@@ -1,4 +1,5 @@
-﻿function wait-IE{while($ie.Busy) { Start-Sleep -Milliseconds 100 }}
+﻿#!/usr/bin/env powershell
+function wait-IE{while($ie.Busy) { Start-Sleep -Milliseconds 100 }}
 
 function script:Filter-Windows(){
     Param(
