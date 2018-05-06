@@ -5,22 +5,21 @@ import time
 import glob
 import os
 from win32api import GetSystemMetrics
-download_directory = "C:\Downloads"
+
+download_directory = ""
 
 def get_latest_downloads(filter):
   files_path = os.path.join(download_directory, filter)
   files = sorted(glob.iglob(files_path), key=os.path.getctime, reverse=True)
   return files
-
-
-urls = ["aoditd.com", "tsbvek.com"]
+ 
+urls = ["mail.richtman.com.au", "richtman.com.au", "www.richtman.com.au"]
 domains = "+".join(urls)
   
 free_ssl = webdriver.Chrome()
 free_ssl.set_window_position(0,0)
 free_ssl.set_window_size(GetSystemMetrics(0)/2,GetSystemMetrics(1)*.8)
 free_ssl.get("https://www.sslforfree.com/create?domains=" + domains)
-time.sleep(3)
 #select manual ftp
 elems = free_ssl.find_elements(By.XPATH,'//*[@id="content_create_validation_methods"]/div[1]/a[2]')
 elems[0].click()
@@ -37,23 +36,16 @@ for x in range(1,len(urls)+1):
 #get paths of downloaded files
 files = get_latest_downloads('*')
 
-elems = free_ssl.find_elements(By.XPATH,'//*[@id="content_create_manual_output"]/form/button')
-elems[0].click()
-
 
 godaddy = webdriver.Chrome()
 godaddy.set_window_position(GetSystemMetrics(0)/2,0)
 godaddy.set_window_size(GetSystemMetrics(0)/2,GetSystemMetrics(1)*.8)
-godaddy.find_elements_by_tag_name('body').send_keys(
-godaddy.get("http://yourdomainname.com/cpanel")
-
-uname = raw_input("Godaddy username: ")
-pword = raw_input("Godaddy password: ")
-
+godaddy.get("http://richtman.com.au/cpanel")
+time.sleep(5)
 elems = godaddy.find_elements(By.XPATH,'//*[@id="user"]')
-elems[0].send_keys(uname)
+elems[0].send_keys("")
 elems = godaddy.find_elements(By.XPATH,'//*[@id="pass"]')
-elems[0].send_keys(pword)
+elems[0].send_keys("")
 elems = godaddy.find_elements(By.XPATH,'//*[@id="login_submit"]')
 elems[0].click()
 elems = godaddy.find_elements(By.XPATH,'//*[@id="item_file_manager"]')
@@ -94,18 +86,14 @@ elems[0].click()
 godaddy.switch_to_window(godaddy.window_handles[1])
 godaddy.close()
 
-#back to ssl for free
-
-#select manual ftp
-elems = free_ssl.find_elements(By.XPATH,'//*[@id="content_create_validation_methods"]/div[1]/a[2]')
-elems[0].click()
-#click manually verify
-elems = free_ssl.find_elements(By.XPATH,'//*[@id="content_create_validation_methods"]/div[2]/div[2]/form/button')
-elems[0].click()
-
+#back to ssl for free to generate
 elems = free_ssl.find_elements(By.XPATH,'//*[@id="content_create_manual_output"]/form/button')
 elems[0].click()
 time.sleep(30)
+#now to download all those
+elems = free_ssl.find_elements(By.XPATH,'//*[@id="certificate_download"]')
+elems[0].click()
+time.sleep(5)
 
 #extract our download
 files = get_latest_downloads('*.zip')
@@ -134,7 +122,8 @@ elems[0].click()
 
 elems = godaddy.find_elements(By.XPATH,'//*[@id="lnkReturn"]')
 elems[0].click()
-
+elems = godaddy.find_elements(By.XPATH,'//*[@id="lnkReturn"]')
+elems[0].click()
 #manage/install ssl
 elems = godaddy.find_elements(By.XPATH,'//*[@id="lnkInstall"]')
 elems[0].click()
@@ -143,15 +132,18 @@ elems[0].send_keys(Keys.DOWN)
 elems = godaddy.find_elements(By.XPATH,'//*[@id="fetch-domain"]')
 elems[0].click()
 time.sleep(15)
+
 files = get_latest_downloads('private.key')
 with open(files[0], 'r') as myfile:
     data=myfile.read()
 elems = godaddy.find_elements(By.XPATH,'//*[@id="sslkey"]')
 elems[0].send_keys(data)
+time.sleep(15)
 
 elems = godaddy.find_elements(By.XPATH,'//*[@id="btnInstall"]')
 elems[0].click()
-elems = godaddy.find_elements(By.XPATH,'//*[@id="yui-gen53"]/div[3]/span/button')
+time.sleep(15)
+elems = godaddy.find_elements(By.XPATH,'//*[starts-with(@id,"yui-gen")]/div[3]/span/button')
 elems[0].click()
 
 godaddy.close()
