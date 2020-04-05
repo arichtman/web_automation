@@ -32,8 +32,7 @@ time.sleep(5)
 
 #download files
 for x in range(1,len(config_data['urls'])+1):
-  free_ssl.find_element_by_xpath('//*[@id="content_create_manual_output"]/ol/li[1]/ol/li[%d]/a' % x)
-  elems[0].click()
+  free_ssl.find_element_by_xpath('//*[@id="content_create_manual_output"]/ol/li[1]/ol/li[%d]/a' % x).click()
   time.sleep(5)
 
 #get paths of downloaded files
