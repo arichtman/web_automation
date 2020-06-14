@@ -1,0 +1,7 @@
+
+argparse
+re
+bs4
+urllib
+csv
+yaml
