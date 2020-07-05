@@ -1,10 +1,10 @@
-download_directory: C:\Users\Admin\Downloads
+download_directory: C:\Users\Cindy\Downloads
 urls: 
   - www.domain.com
   - mail.domain.com
   - domain.com
-chromedriver_path: C:\ProgramData\chocolatey\bin\chromedriver.exe
+chromedriver_path: C:\Users\Cindy\Downloads\chromedriver.exe
 cpanel:
   url: https://domain.com.au/cpanel
-  username: admin
-  password: CorrectHorseBatteryStape
+  username: Cindy
+  password: CorrectHorseBatteryStaple
